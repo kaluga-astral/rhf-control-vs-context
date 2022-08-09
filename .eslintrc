@@ -1,0 +1,10 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["@astral/eslint-config-react"],
+  "parserOptions": {
+    "project": ["tsconfig.json"]
+  },
+  "rules": {
+    "react/jsx-props-no-spreading": "off"
+  }
+}
