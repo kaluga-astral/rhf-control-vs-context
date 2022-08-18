@@ -1,11 +1,28 @@
-import {PassportFormPart} from '../PassportFormPart';
+import { useForm } from 'react-hook-form';
 
-export type MainFormProps = {};
+import { PassportFormPart, PassportFormPartValues } from '../PassportFormPart';
+import { TextField, TextFieldValue } from '../TextField';
 
-export const MainForm = ({}: MainFormProps) => {
+// Минусы:
+// 1. Необходимо прокидывать control вниз по всему дереву
+// 2. Нет возможости без боли переиспользовать части формы из-за типизации Control
+
+// Плюсы:
+// 1. Полная синхронизация Values формы и полей
+
+type MainFormValues = {
+  organizationName: TextFieldValue;
+} & PassportFormPartValues;
+
+export const MainForm = () => {
+  const { control, handleSubmit } = useForm<MainFormValues>();
+
+  const onSubmit = (data: MainFormValues) => console.log(data);
+
   return (
-    <form>
-      <PassportFormPart />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <TextField name="organizationName" control={control} />
+      <PassportFormPart control={control} />
     </form>
   );
 };

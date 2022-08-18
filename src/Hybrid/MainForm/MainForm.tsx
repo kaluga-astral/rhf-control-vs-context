@@ -4,13 +4,13 @@ import { PassportFormPart, PassportFormPartValues } from '../PassportFormPart';
 import { TextField, TextFieldValue } from '../TextField';
 
 // Минусы:
-// 1. Необходимо прокидывать values в generic
-// 2. Generic не выдаст ошибку, если в него ничего не прокинуть
-// 3. Не синхронизованные типы, то есть у TextField нет гарантий связи с form. В Generic TextField можно прокинуть любой тип
+// 1. Необходимо прокидывать control в каждый Field
+// 2. Необходимо оборачивать всю форму в контекст
 
 // Плюсы:
-// 1. Не нужно прокидывать control вниз по дереву
+// 1. Полная синхронизация Values формы и полей
 // 2. Простое переиспользование частей формы
+// 3. Нет необходимости прокидывать control вниз по всему дереву компонентов (используетс context)
 
 type MainFormValues = {
   organizationName: TextFieldValue;
@@ -24,7 +24,7 @@ export const MainForm = () => {
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <TextField<MainFormValues> name="organizationName" />
+        <TextField name="organizationName" control={form.control} />
         <PassportFormPart />
       </form>
     </FormProvider>
